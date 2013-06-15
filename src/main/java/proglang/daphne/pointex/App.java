@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 
 import org.xml.sax.SAXException;
 
@@ -20,6 +21,9 @@ public class App {
 
 		InputStream in = new BufferedInputStream(new FileInputStream(
 				"/tmp/daphne.xml"));
-		PointExtractor.extract(in);
+		Collection<Student> students = PointExtractor.extract(in);
+		for (Student student : students) {
+			System.out.println(student);
+		}
 	}
 }
