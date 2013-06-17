@@ -15,15 +15,21 @@ import org.xml.sax.SAXException;
 public class App {
 	public static void main(String[] args) throws IOException, SAXException {
 
+        if (args.length == 0) {
+            System.err.println("Please supply daphne overview page as file");
+            return;
+        }
+
 		// -Dorg.slf4j.simpleLogger.defaultLogLevel=debug
 		System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY,
 				"TRACE");
 
 		InputStream in = new BufferedInputStream(new FileInputStream(
-				"/tmp/daphne.xml"));
+				args[0]));
 		Collection<Student> students = PointExtractor.extract(in);
-		for (Student student : students) {
+		/*for (Student student : students) {
 			System.out.println(student);
-		}
+		}*/
+        System.out.println(CSVPrinter.toCSVString(students));
 	}
 }
