@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,12 +24,12 @@ public class PointExtractor {
 	private static org.slf4j.Logger log = org.slf4j.LoggerFactory
 			.getLogger(PointExtractor.class);
 
-	public static Collection<Student> extract(final InputStream in)
+	public static List<Student> extract(final InputStream in)
 			throws IOException {
 		String[] tableHeaders = null;
 		String[][] table = null;
 
-		Collection<Student> students = new LinkedList<>();
+		List<Student> students = new ArrayList<>();
 
 		Document doc = Jsoup.parse(in, Charset.defaultCharset().name(), "");
 		Elements tables = doc.select("table");
@@ -63,7 +61,7 @@ public class PointExtractor {
 
 				String[] points = Arrays.copyOfRange(table[currRow],
 						COL_LATEST_EX, table[currRow].length);
-				List<ExPoint> parsedPoints = parsePoints(points);
+				ArrayList<ExPoint> parsedPoints = parsePoints(points);
 
 				Student student = new Student(table[currRow][COL_USERNAME],
 						parseTutor(table[currRow][COL_TUTOR]), parsedPoints);
@@ -84,8 +82,8 @@ public class PointExtractor {
 		return students;
 	}
 
-	private static List<ExPoint> parsePoints(String[] points) {
-		List<ExPoint> coll = new ArrayList<>(points.length);
+	private static ArrayList<ExPoint> parsePoints(String[] points) {
+		ArrayList<ExPoint> coll = new ArrayList<>();
 
 		for (String entry : points) {
 			// Decimal conversion

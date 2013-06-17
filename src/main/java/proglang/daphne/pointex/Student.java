@@ -1,14 +1,16 @@
 package proglang.daphne.pointex;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Student {
 
 	private final String username;
 	private final String tutor;
-	private final List<ExPoint> points;
+	
+	private ArrayList<ExPoint> points;
 
-	public Student(String username, String tutor, List<ExPoint> parsedPoints) {
+	public Student(String username, String tutor, ArrayList<ExPoint> parsedPoints) {
 		super();
 		this.username = username;
 		this.tutor = tutor;

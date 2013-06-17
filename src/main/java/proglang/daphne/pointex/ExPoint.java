@@ -1,10 +1,11 @@
 package proglang.daphne.pointex;
 
+
 public class ExPoint {
 
 	private final double points;
 	private final double max;
-	
+
 	public ExPoint(double points, double max) {
 		super();
 		this.points = points;
