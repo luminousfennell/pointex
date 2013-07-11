@@ -10,11 +10,14 @@ Compilation
 
     $ mvn package
 
-Execution
+Run
 ---------
 
 Just run the jar:
 
     $ java -jar target/pointex-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
-it requires the overview website with the points of the exercises.
+The html file(!) name of the overview website (with the points of the exercises)
+has to be given as first argument.
+
+It can print either XML or CSV. CSV can be easily imported in Excel.
