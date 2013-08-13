@@ -89,7 +89,7 @@ public class PointExtractor {
 			// Decimal conversion
 			entry = entry.replace(",", ".");
 
-			double received = -1;
+			double received = 0;
 			double max = -1;
 
 			try (Scanner sc = new Scanner(entry);) {
