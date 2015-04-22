@@ -16,7 +16,7 @@ import org.jsoup.select.Elements;
 public class PointExtractor {
 
 	private static final int COL_USERNAME = 0;
-	private static final int COL_TUTOR = 1;
+	private static final int COL_TUTOR = 2;
 //	private static final int COL_POINTS = 2;
 //	private static final int COL_MARK = 3;
 	private static final int COL_LATEST_EX = 4;
