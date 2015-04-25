@@ -22,16 +22,14 @@ import org.junit.Test;
 
 public class PointExtractorTest {
 
-	InputStream in;
 
-	@Before
-	public void setup() throws FileNotFoundException {
-		String testHtmlFName = "index-test.html";
-		in = this.getClass().getClassLoader()
-				.getResourceAsStream(testHtmlFName);
+	private InputStream loadTestFile(String resource) throws FileNotFoundException {
+		InputStream in = this.getClass().getClassLoader()
+				.getResourceAsStream(resource);
 		if (in == null) {
-			throw new FileNotFoundException(testHtmlFName);
+			throw new FileNotFoundException(resource);
 		}
+		return in;
 	}
 
 	@Test
@@ -39,7 +37,7 @@ public class PointExtractorTest {
 		List<ExPoint> zeros = Arrays.asList(new ExPoint(0, 0));
 		//TODO: the expected expoint results are WRONG! They need to be fixed when refactoring is complete
 		List<Student> expected = Arrays.asList(new Student("aa11", null, zeros), new Student("ab12", "tt99", zeros), new Student("cd25", null, zeros), new Student("xy666", null, zeros));
-		List<Student> result = PointExtractor.extract(in);
+		List<Student> result = PointExtractor.extract(loadTestFile("index-test.html"));
 		assertEquals(expected, result);
 
 // TODO: write this test when the parse* method is written
@@ -49,5 +47,12 @@ public class PointExtractorTest {
 //	  String[][] table = new String[1][5];
 //	  PointExtractor.parseName(table, 0, r.select("td"));
 //	  assertEquals("Anselm Josef Gabriel Auer", table[0][1]);
+	}
+
+	@Test
+	public void regressionIndexTestBroken() throws IOException {
+		List<Student> result = PointExtractor.extract(loadTestFile("index-test-broken.html"));
+// TODO: what would one expect here?
+
 	}
 }
