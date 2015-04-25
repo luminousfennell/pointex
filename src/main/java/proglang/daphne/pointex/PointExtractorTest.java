@@ -55,4 +55,24 @@ public class PointExtractorTest {
 // TODO: what would one expect here?
 
 	}
+	
+	private static Elements parseRow(String rowString) {
+	  Document d = Jsoup.parse("<table><tr>" + rowString + "</tr></table>");
+	  Elements row = d.select("tbody > tr").get(0).select("td");
+	  return row;
+	}
+	
+	@Test
+	public void testParseStudentAA11() {
+      String rowString = "<td class=\" \"><a href=\"https://daphne.informatik.uni-freiburg.de/test/accounts/aa11/\">aa11</a></td> <td class=\" \">Alpha S. Eleven</td> <td class=\" \"><a href=\"https://daphne.informatik.uni-freiburg.de/test/groups/assign/\">*</a> </td> <td class=\"textright \">3 / 10</td> <td class=\"textright \"><a href=\"https://daphne.informatik.uni-freiburg.de/test/solutions/12345/\">- - -</a> / 0</td><td>3 / 10</td>";
+	  Student result = PointExtractor.parseStudent(parseRow(rowString));
+	  assertEquals(new Student("aa11", null, Arrays.asList(new ExPoint(0, 0), new ExPoint(3, 10))), result);
+	}
+
+	@Test
+	public void testParseStudentAB12() {
+      String rowString = "<td class=\" \"><a href=\"https://daphne.informatik.uni-freiburg.de/test/accounts/ab12/\">ab12</a></td> <td class=\" \">Alpha S. Eleven</td> <td class=\" \"><a href=\"https://daphne.informatik.uni-freiburg.de/test/groups/12345/assign/\">*</a> <a href=\"https://daphne.informatik.uni-freiburg.de/ss2015/ProgrammierenJavaSS2015/accounts/tt99/\">tt99</a> </td> <td class=\"textright \">3 / 10</td> <td>3 / 10</td>";
+	  Student result = PointExtractor.parseStudent(parseRow(rowString));
+	  assertEquals(new Student("ab12", "tt99", Arrays.asList(new ExPoint(3, 10))), result);
+	}
 }

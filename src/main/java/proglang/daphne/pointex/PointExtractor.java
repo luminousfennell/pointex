@@ -17,8 +17,8 @@ public class PointExtractor {
 
 	private static final int COL_USERNAME = 0;
 	private static final int COL_TUTOR = 2;
-//	private static final int COL_POINTS = 2;
-//	private static final int COL_MARK = 3;
+	// private static final int COL_POINTS = 2;
+	// private static final int COL_MARK = 3;
 	private static final int COL_LATEST_EX = 4;
 
 	private static org.slf4j.Logger log = org.slf4j.LoggerFactory
@@ -49,22 +49,10 @@ public class PointExtractor {
 			// Extract content
 			Elements rows = tables.select("tbody > tr.even, tbody > tr.odd");
 
-			table = new String[rows.size()][tableHeaders.length];
-
 			for (int currRow = 0; currRow < rows.size(); currRow++) {
 				Elements cols = rows.get(currRow).select("td");
 
-				for (int currCol = 0; currCol < cols.size(); currCol++) {
-					Element col = cols.get(currCol);
-					table[currRow][currCol] = col.text();
-				}
-
-				String[] points = Arrays.copyOfRange(table[currRow],
-						COL_LATEST_EX, table[currRow].length);
-				ArrayList<ExPoint> parsedPoints = parsePoints(points);
-
-				Student student = new Student(table[currRow][COL_USERNAME],
-						parseTutor(table[currRow][COL_TUTOR]), parsedPoints);
+				Student student = parseStudent(cols);
 				students.add(student);
 			}
 		}
@@ -82,7 +70,17 @@ public class PointExtractor {
 		return students;
 	}
 
-	private static ArrayList<ExPoint> parsePoints(String[] points) {
+	static Student parseStudent(Elements row) {
+		List<String> points = new ArrayList<>();
+		for (Element e : row.subList(COL_LATEST_EX, row.size())) {
+			points.add(e.text());
+		}
+		List<ExPoint> parsedPoints = parsePoints(points);
+		String tutor = parseTutor(row.get(COL_TUTOR).text());
+		return new Student(row.get(COL_USERNAME).text(), tutor, parsedPoints);
+	}
+
+	private static ArrayList<ExPoint> parsePoints(List<String> points) {
 		ArrayList<ExPoint> coll = new ArrayList<>();
 
 		for (String entry : points) {
@@ -93,7 +91,7 @@ public class PointExtractor {
 			double max = -1;
 
 			try (Scanner sc = new Scanner(entry);) {
-				
+
 				if (sc.hasNextDouble()) {
 					received = sc.nextDouble();
 				}
