@@ -35,7 +35,7 @@ public class PointExtractorTest {
 	}
 
 	@Test
-	public void testExampleFile() throws IOException {
+	public void regressionIndexTest() throws IOException {
 		List<ExPoint> zeros = Arrays.asList(new ExPoint(0, 0));
 		//TODO: the expected expoint results are WRONG! They need to be fixed when refactoring is complete
 		List<Student> expected = Arrays.asList(new Student("aa11", null, zeros), new Student("ab12", "tt99", zeros), new Student("cd25", null, zeros), new Student("xy666", null, zeros));
