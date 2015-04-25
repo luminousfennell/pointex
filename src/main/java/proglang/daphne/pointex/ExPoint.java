@@ -24,4 +24,33 @@ public class ExPoint {
 	public String toString() {
 		return points + "/" + max;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(max);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(points);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ExPoint other = (ExPoint) obj;
+		if (Double.doubleToLongBits(max) != Double.doubleToLongBits(other.max))
+			return false;
+		if (Double.doubleToLongBits(points) != Double
+				.doubleToLongBits(other.points))
+			return false;
+		return true;
+	}
 }
