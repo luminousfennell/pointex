@@ -8,13 +8,13 @@ public class Student {
 	private final String username;
 	private final String tutor;
 	
-	private ArrayList<ExPoint> points;
+	private List<ExPoint> points;
 
-	public Student(String username, String tutor, ArrayList<ExPoint> parsedPoints) {
+	public Student(String username, String tutor, List<ExPoint> parsedPoints) {
 		super();
 		this.username = username;
 		this.tutor = tutor;
-		this.points = parsedPoints;
+		this.points = new ArrayList<>(parsedPoints);
 	}
 
 	public String getUsername() {

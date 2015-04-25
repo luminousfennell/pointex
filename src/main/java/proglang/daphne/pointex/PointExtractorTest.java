@@ -36,8 +36,8 @@ public class PointExtractorTest {
 
 	@Test
 	public void testExampleFile() throws IOException {
-		ArrayList<ExPoint> zeros = new ArrayList<>(Arrays.asList(new ExPoint(0, 0)));
-		List<Student> expected = new ArrayList<>(Arrays.asList(new Student("aa11", null, zeros), new Student("ab12", null, zeros), new Student("cd25", null, zeros), new Student("xy666", null, zeros)));
+		List<ExPoint> zeros = Arrays.asList(new ExPoint(0, 0));
+		List<Student> expected = Arrays.asList(new Student("aa11", null, zeros), new Student("ab12", null, zeros), new Student("cd25", null, zeros), new Student("xy666", null, zeros));
 		List<Student> result = PointExtractor.extract(in);
 		assertEquals(expected, result);
 
