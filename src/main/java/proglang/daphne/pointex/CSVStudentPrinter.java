@@ -10,6 +10,7 @@ public class CSVStudentPrinter implements StudentPrinter {
 
 		for (Student st : students) {
 			sb.append(st.getUsername() + ",");
+			sb.append(st.getRealname() + ",");
 			sb.append(st.getTutor() + ",");
 
 			for (ExPoint p : st.getPoints()) {
