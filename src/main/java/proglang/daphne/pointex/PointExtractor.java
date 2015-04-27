@@ -27,7 +27,6 @@ public class PointExtractor {
 	public static List<Student> extract(final InputStream in)
 			throws IOException {
 		String[] tableHeaders = null;
-		String[][] table = null;
 
 		List<Student> students = new ArrayList<>();
 
@@ -57,15 +56,7 @@ public class PointExtractor {
 			}
 		}
 
-		log.debug("Entries: " + table.length);
-
-		// System.out.println(Arrays.toString(tableHeaders));
-		// for (int i = 0; i < table.length; i++) {
-		// for (int j = 0; j < table[i].length; j++) {
-		// System.out.print(table[i][j] + "|");
-		// }
-		// System.out.println();
-		// }
+		log.debug("Entries: " + students.size());
 
 		return students;
 	}
