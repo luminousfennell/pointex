@@ -1,10 +1,16 @@
 package proglang.daphne.pointex;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.cli.BasicParser;
@@ -21,6 +27,10 @@ import org.xml.sax.SAXException;
  * 
  */
 public class App {
+	
+	private static final int EXIT_STATUS_ERROR = -1;
+	private static final String OPT_EXCLUDED = "excluded";
+	
 	public static void main(String[] args) throws IOException, SAXException {
 
 		Option outfile = OptionBuilder.withLongOpt("outfile")
@@ -38,6 +48,7 @@ public class App {
 		options.addOption(optVerbose);
 		options.addOption(outfile);
 		options.addOption(outtype);
+		options.addOption(OptionBuilder.withLongOpt(OPT_EXCLUDED).withArgName("file").hasArg().withDescription("File with one excluded username per line").create());
 
 		BasicParser parser = new BasicParser();
 
@@ -65,10 +76,26 @@ public class App {
 						options);
 				return;
 			}
+			
+			List<String> excludedUsernames = new ArrayList<>();
+			if (commandLine.hasOption(OPT_EXCLUDED)) {
+				File excludedFile = new File(commandLine.getOptionValue(OPT_EXCLUDED));
+				try  {
+					BufferedReader r = new BufferedReader(new FileReader(excludedFile));
+					excludedUsernames.addAll(UsernameFile.parseExcludedStudents(r));
+				} catch (IOException e) {
+					System.err.println(String.format("Error reading file of excluded students `%s': %s", excludedFile.getAbsolutePath(), e.getMessage()));
+					System.exit(EXIT_STATUS_ERROR);
+				} catch (IllegalArgumentException e) {
+					System.err.println(String.format("Error parsing file of excluded students `%s': %s", excludedFile.getAbsolutePath(), e.getMessage()));
+					System.exit(EXIT_STATUS_ERROR);
+				}
+			}
 
 			InputStream in = new BufferedInputStream(new FileInputStream(
 					argsList[0]));
-			List<Student> students = PointExtractor.extract(in);
+			
+			List<Student> students = Student.excludeStudents(PointExtractor.extract(in), excludedUsernames);
 
 			// Fallback is CSV printer.
 			StudentPrinter printer = new CSVStudentPrinter();

@@ -4,7 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Student {
+	
+	// Some utility methods for student lists (for lack of a better place).
+	// TODO: move this to Java 8
+	public static List<Student> excludeStudents(List<Student> students, List<String> usernames) {
+		List<Student> result = new ArrayList<Student>();
+		for (Student s : students) {
+			if (!usernames.contains(s.getUsername())) {
+				result.add(s);
+			}
+		}
+		return result;
+	}
 
+	// Real implementation of Student objects
 	private final String username;
 	private final String realname;
 	private final String tutor;
