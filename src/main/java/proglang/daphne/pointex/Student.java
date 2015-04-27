@@ -6,13 +6,15 @@ import java.util.List;
 public class Student {
 
 	private final String username;
+	private final String realname;
 	private final String tutor;
 	
 	private List<ExPoint> points;
 
-	public Student(String username, String tutor, List<ExPoint> parsedPoints) {
+	public Student(String username, String realname, String tutor, List<ExPoint> parsedPoints) {
 		super();
 		this.username = username;
+		this.realname = realname;
 		this.tutor = tutor;
 		this.points = new ArrayList<>(parsedPoints);
 	}
@@ -26,6 +28,8 @@ public class Student {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((points == null) ? 0 : points.hashCode());
+		result = prime * result
+				+ ((realname == null) ? 0 : realname.hashCode());
 		result = prime * result + ((tutor == null) ? 0 : tutor.hashCode());
 		result = prime * result
 				+ ((username == null) ? 0 : username.hashCode());
@@ -46,6 +50,11 @@ public class Student {
 				return false;
 		} else if (!points.equals(other.points))
 			return false;
+		if (realname == null) {
+			if (other.realname != null)
+				return false;
+		} else if (!realname.equals(other.realname))
+			return false;
 		if (tutor == null) {
 			if (other.tutor != null)
 				return false;
@@ -58,6 +67,10 @@ public class Student {
 			return false;
 		return true;
 	}
+	
+	public String getRealname() {
+		return realname;
+	}
 
 	public String getTutor() {
 		return tutor;
@@ -65,7 +78,7 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [username=" + username + ", tutor=" + tutor
+		return "Student [username=" + username + ", realname=" + realname + ", tutor=" + tutor
 				+ ", points=" + points + "]";
 	}
 

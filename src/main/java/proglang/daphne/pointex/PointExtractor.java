@@ -16,6 +16,7 @@ import org.jsoup.select.Elements;
 public class PointExtractor {
 
 	private static final int COL_USERNAME = 0;
+	private static final int COL_REALNAME = 1;
 	private static final int COL_TUTOR = 2;
 	// private static final int COL_POINTS = 2;
 	// private static final int COL_MARK = 3;
@@ -66,9 +67,10 @@ public class PointExtractor {
 		for (Element e : row.subList(COL_LATEST_EX, row.size())) {
 			points.add(e.text());
 		}
+
 		List<ExPoint> parsedPoints = parsePoints(points);
 		String tutor = parseTutor(row.get(COL_TUTOR).text());
-		return new Student(row.get(COL_USERNAME).text(), tutor, parsedPoints);
+		return new Student(row.get(COL_USERNAME).text(), row.get(COL_REALNAME).text(), tutor, parsedPoints);
 	}
 
 	private static ArrayList<ExPoint> parsePoints(List<String> points) {
