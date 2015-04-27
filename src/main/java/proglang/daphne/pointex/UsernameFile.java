@@ -35,9 +35,12 @@ public class UsernameFile {
 	 */
 	static void checkValidity(String line) {
 
-		boolean valid = line.length() >= 3 && Character.isAlphabetic(line.toCharArray()[0]) && Character.isAlphabetic(line.toCharArray()[1]) && allNumeric(line.substring(2));
+		boolean valid = line.length() >= 3 
+				&& (Character.isAlphabetic(line.toCharArray()[0]) && Character.isAlphabetic(line.toCharArray()[1]) && allNumeric(line.substring(2))
+					|| line.substring(0, 2).equals("s8") && allAlphabetic(line.substring(2)));
+
 		if (!valid) {
-			throw new IllegalArgumentException(String.format("Illegal username `%s'; usernames start with two initials, followed by a number (e.g., ab124)", line));
+			throw new IllegalArgumentException(String.format("Illegal username `%s'", line));
 		}
 	}
 	
@@ -45,6 +48,14 @@ public class UsernameFile {
 		boolean result = true;
 		for (char c : s.toCharArray()) {
 			result &= Character.isDigit(c);
+		}
+		return result;
+	}
+
+	static private boolean allAlphabetic(String s) {
+		boolean result = true;
+		for (char c : s.toCharArray()) {
+			result &= Character.isAlphabetic(c);
 		}
 		return result;
 	}

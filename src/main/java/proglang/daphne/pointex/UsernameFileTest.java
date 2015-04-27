@@ -45,6 +45,11 @@ public class UsernameFileTest {
 	}
 	
 	@Test
+	public void testCheckValidity_valid2() {
+		UsernameFile.checkValidity("s8lumfen");
+	}
+	
+	@Test
 	public void testParseUsername() throws IOException {
 		List<String> expected = Arrays.asList("ab123", "xy666");
 		assertEquals(expected, UsernameFile.parseExcludedStudents(testInput));
