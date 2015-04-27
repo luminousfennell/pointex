@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
 public class App {
 	
 	private static final int EXIT_STATUS_ERROR = -1;
-	private static final String OPT_EXCLUDED = "excluded";
+	private static final String OPT_EXCLUDED = "exclude";
 	
 	public static void main(String[] args) throws IOException, SAXException {
 
