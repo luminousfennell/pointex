@@ -31,6 +31,7 @@ public class App {
 	private static final int EXIT_STATUS_ERROR = -1;
 	private static final String OPT_EXCLUDED = "exclude";
 	
+	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws IOException, SAXException {
 
 		Option outfile = OptionBuilder.withLongOpt("outfile")
@@ -43,12 +44,12 @@ public class App {
 
 		Option optVerbose = new Option("v", "Verbose");
 
-		Options options = new Options();
-		options.addOption("h", "help", false, "Prints a help text");
-		options.addOption(optVerbose);
-		options.addOption(outfile);
-		options.addOption(outtype);
-		options.addOption(OptionBuilder.withLongOpt(OPT_EXCLUDED).withArgName("file").hasArg().withDescription("File with one excluded username per line").create());
+		Options options = new Options()
+			.addOption("h", "help", false, "Prints a help text")
+			.addOption(optVerbose)
+			.addOption(outfile)
+			.addOption(outtype)
+			.addOption(OptionBuilder.withLongOpt(OPT_EXCLUDED).withArgName("file").hasArg().withDescription("File with one excluded username per line").create());
 
 		BasicParser parser = new BasicParser();
 
