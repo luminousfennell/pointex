@@ -21,6 +21,7 @@ public class PointExtractor {
 	// private static final int COL_POINTS = 2;
 	// private static final int COL_MARK = 3;
 	private static final int COL_LATEST_EX = 4;
+	private static final int MIN_ROW_SIZE = COL_LATEST_EX + 1;
 
 	private static org.slf4j.Logger log = org.slf4j.LoggerFactory
 			.getLogger(PointExtractor.class);
@@ -52,8 +53,13 @@ public class PointExtractor {
 			for (int currRow = 0; currRow < rows.size(); currRow++) {
 				Elements cols = rows.get(currRow).select("td");
 
-				Student student = parseStudent(cols);
-				students.add(student);
+				// TODO: this check belongs in parseStudent which should return an option value.. fix this when java8ifying
+				if (cols.size() >= MIN_ROW_SIZE) {
+					Student student = parseStudent(cols);
+					students.add(student);
+				} else {
+					log.warn("Table row for student shorter than expected: " + cols.toString());
+				}
 			}
 		}
 
@@ -70,7 +76,8 @@ public class PointExtractor {
 
 		List<ExPoint> parsedPoints = parsePoints(points);
 		String tutor = parseTutor(row.get(COL_TUTOR).text());
-		return new Student(row.get(COL_USERNAME).text(), row.get(COL_REALNAME).text(), tutor, parsedPoints);
+		return new Student(row.get(COL_USERNAME).text(), row.get(COL_REALNAME)
+				.text(), tutor, parsedPoints);
 	}
 
 	private static ArrayList<ExPoint> parsePoints(List<String> points) {
