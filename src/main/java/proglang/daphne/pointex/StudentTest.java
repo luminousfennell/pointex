@@ -10,6 +10,7 @@ import org.junit.Test;
 
 public class StudentTest {
 
+	// TODO: factor example students into their own class, so that they can be shared by tests
 	private List<Student> exampleStudents;
 	private List<ExPoint> zeros;
 	private List<ExPoint> somePoints;

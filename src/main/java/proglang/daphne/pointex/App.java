@@ -27,10 +27,11 @@ import org.xml.sax.SAXException;
  * 
  */
 public class App {
-	
+
 	private static final int EXIT_STATUS_ERROR = -1;
 	private static final String OPT_EXCLUDED = "exclude";
-	
+	private static final String OPT_TUTOR_SUMMARY = "tutor-summary";
+
 	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws IOException, SAXException {
 
@@ -45,11 +46,22 @@ public class App {
 		Option optVerbose = new Option("v", "Verbose");
 
 		Options options = new Options()
-			.addOption("h", "help", false, "Prints a help text")
-			.addOption(optVerbose)
-			.addOption(outfile)
-			.addOption(outtype)
-			.addOption(OptionBuilder.withLongOpt(OPT_EXCLUDED).withArgName("file").hasArg().withDescription("File with one excluded username per line").create());
+				.addOption("h", "help", false, "Prints a help text")
+				.addOption(optVerbose)
+				.addOption(outfile)
+				.addOption(outtype)
+				.addOption(
+						OptionBuilder
+								.withLongOpt(OPT_EXCLUDED)
+								.withArgName("file")
+								.hasArg()
+								.withDescription(
+										"File with one excluded username per line")
+								.create())
+				.addOption(
+						OptionBuilder.withLongOpt(OPT_TUTOR_SUMMARY)
+								.withDescription("Print a tutor summary")
+								.create());
 
 		BasicParser parser = new BasicParser();
 
@@ -77,42 +89,34 @@ public class App {
 						options);
 				return;
 			}
-			
+
 			List<String> excludedUsernames = new ArrayList<>();
 			if (commandLine.hasOption(OPT_EXCLUDED)) {
-				File excludedFile = new File(commandLine.getOptionValue(OPT_EXCLUDED));
-				try  {
-					BufferedReader r = new BufferedReader(new FileReader(excludedFile));
-					excludedUsernames.addAll(UsernameFile.parseExcludedStudents(r));
+				File excludedFile = new File(
+						commandLine.getOptionValue(OPT_EXCLUDED));
+				try {
+					BufferedReader r = new BufferedReader(new FileReader(
+							excludedFile));
+					excludedUsernames.addAll(UsernameFile
+							.parseExcludedStudents(r));
 				} catch (IOException e) {
-					System.err.println(String.format("Error reading file of excluded students `%s': %s", excludedFile.getAbsolutePath(), e.getMessage()));
+					System.err.println(String.format(
+							"Error reading file of excluded students `%s': %s",
+							excludedFile.getAbsolutePath(), e.getMessage()));
 					System.exit(EXIT_STATUS_ERROR);
 				} catch (IllegalArgumentException e) {
-					System.err.println(String.format("Error parsing file of excluded students `%s': %s", excludedFile.getAbsolutePath(), e.getMessage()));
+					System.err.println(String.format(
+							"Error parsing file of excluded students `%s': %s",
+							excludedFile.getAbsolutePath(), e.getMessage()));
 					System.exit(EXIT_STATUS_ERROR);
 				}
 			}
 
 			InputStream in = new BufferedInputStream(new FileInputStream(
 					argsList[0]));
-			
-			List<Student> students = Student.excludeStudents(PointExtractor.extract(in), excludedUsernames);
 
-			// Fallback is CSV printer.
-			StudentPrinter printer = new CSVStudentPrinter();
-
-			if (commandLine.hasOption("t")) {
-				switch (commandLine.getOptionValue("t")) {
-				case "xml":
-					printer = new XMLStudentPrinter();
-					break;
-				case "csv":
-					printer = new CSVStudentPrinter();
-					break;
-				}
-			}
-
-			String studentsString = printer.getStringFrom(students);
+			List<Student> students = Student.excludeStudents(
+					PointExtractor.extract(in), excludedUsernames);
 
 			PrintStream ps = System.out;
 
@@ -123,12 +127,36 @@ public class App {
 				ps = new PrintStream(file);
 			}
 
-			ps.println(studentsString);
-			ps.close();
+			if (commandLine.hasOption(OPT_TUTOR_SUMMARY)) {
+				// TODO: generalize xml output such that it can be used for tutors
+				if (commandLine.hasOption("t")
+						&& !commandLine.getOptionValue("t").equals("csv")) {
+					System.err.println("Error: XML output not supported for tutor info.");
+				}
+				Tutors.write(ps, Tutors.sort(students));
+			} else {
 
+				// Fallback is CSV printer.
+				StudentPrinter printer = new CSVStudentPrinter();
+
+				if (commandLine.hasOption("t")) {
+					switch (commandLine.getOptionValue("t")) {
+					case "xml":
+						printer = new XMLStudentPrinter();
+						break;
+					case "csv":
+						printer = new CSVStudentPrinter();
+						break;
+					}
+				}
+				String studentsString = printer.getStringFrom(students);
+				ps.println(studentsString);
+			}
+			ps.close();
 		} catch (ParseException e) {
 			System.out.println("Unexpected exception:" + e.getMessage());
 
+		} finally {
 		}
 	}
 }
