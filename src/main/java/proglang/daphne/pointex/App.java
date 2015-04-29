@@ -133,6 +133,7 @@ public class App {
 						&& !commandLine.getOptionValue("t").equals("csv")) {
 					System.err.println("Error: XML output not supported for tutor info.");
 				}
+				
 				Tutors.write(ps, Tutors.sort(students));
 			} else {
 
