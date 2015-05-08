@@ -1,36 +1,20 @@
 package proglang.daphne.pointex;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static proglang.TestUtils.loadTestFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.junit.Before;
 import org.junit.Test;
 
 public class PointExtractorTest {
 
 
-	private InputStream loadTestFile(String resource) throws FileNotFoundException {
-		InputStream in = this.getClass().getClassLoader()
-				.getResourceAsStream(resource);
-		if (in == null) {
-			throw new FileNotFoundException(resource);
-		}
-		return in;
-	}
 
 	@Test
 	public void regressionIndexTest() throws IOException {
