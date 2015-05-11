@@ -15,11 +15,14 @@ import java.util.List;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.Parser;
 import org.xml.sax.SAXException;
 
 /**
@@ -32,16 +35,15 @@ public class App {
 	private static final String OPT_EXCLUDED = "exclude";
 	private static final String OPT_TUTOR_SUMMARY = "tutor-summary";
 
-	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws IOException, SAXException {
 
-		Option outfile = OptionBuilder.withLongOpt("outfile")
-				.withArgName("arg").hasArg().withDescription("Output file")
-				.create("o");
+		Option outfile = Option.builder("o").longOpt("outfile")
+				.argName("arg").hasArg().desc("Output file")
+				.build();
 
-		Option outtype = OptionBuilder.withLongOpt("type").withArgName("arg")
-				.hasArg().withDescription("Type of the output: xml,csv")
-				.create("t");
+		Option outtype = Option.builder("t").longOpt("type").argName("arg")
+				.hasArg().desc("Type of the output: xml,csv")
+				.build();
 
 		Option optVerbose = new Option("v", "Verbose");
 
@@ -51,19 +53,19 @@ public class App {
 				.addOption(outfile)
 				.addOption(outtype)
 				.addOption(
-						OptionBuilder
-								.withLongOpt(OPT_EXCLUDED)
-								.withArgName("file")
+						Option.builder()
+								.longOpt(OPT_EXCLUDED)
+								.argName("file")
 								.hasArg()
-								.withDescription(
+								.desc(
 										"File with one excluded username per line")
-								.create())
+								.build())
 				.addOption(
-						OptionBuilder.withLongOpt(OPT_TUTOR_SUMMARY)
-								.withDescription("Print a tutor summary")
-								.create());
+						Option.builder().longOpt(OPT_TUTOR_SUMMARY)
+								.desc("Print a tutor summary")
+								.build());
 
-		BasicParser parser = new BasicParser();
+		CommandLineParser parser = new DefaultParser();
 
 		CommandLine commandLine;
 		try {
