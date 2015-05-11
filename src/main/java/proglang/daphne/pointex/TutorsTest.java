@@ -11,6 +11,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import proglang.daphne.pointex.Tutors.Fields;
+
 public class TutorsTest {
 
 	private List<Student> exampleStudents;
@@ -43,7 +45,7 @@ public class TutorsTest {
 		String expected = "ss98, 1, xy666, \n"
 				+ "tt99, 2, ab12, cd25, \n";
 		StringBuffer result = new StringBuffer();
-		Tutors.write(result, Tutors.sort(exampleStudents));
+		Tutors.write(result, Tutors.sort(exampleStudents), Fields.SIZE_AND_USERNAMES);
 		assertEquals(expected, result.toString());
 	}
 }
