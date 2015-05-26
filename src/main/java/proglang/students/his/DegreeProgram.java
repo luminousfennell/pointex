@@ -1,4 +1,4 @@
-package proglang.his.studentex;
+package proglang.students.his;
 
 public class DegreeProgram {
 	

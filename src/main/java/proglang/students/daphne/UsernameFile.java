@@ -1,4 +1,4 @@
-package proglang.daphne.pointex;
+package proglang.students.daphne;
 
 import java.io.BufferedReader;
 import java.io.IOException;

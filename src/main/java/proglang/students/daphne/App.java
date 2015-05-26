@@ -1,4 +1,4 @@
-package proglang.daphne.pointex;
+package proglang.students.daphne;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -7,22 +7,18 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.Parser;
 import org.xml.sax.SAXException;
 
 /**
@@ -34,6 +30,9 @@ public class App {
 	private static final int EXIT_STATUS_ERROR = -1;
 	private static final String OPT_EXCLUDED = "exclude";
 	private static final String OPT_TUTOR_SUMMARY = "tutor-summary";
+	private static final String OPT_DAPHNE_INPUT = "daphne-input";
+	private static final String OPT_HIS_INPUT = "his-input";
+	private static final String OPT_POINTS = "points";
 
 	public static void main(String[] args) throws IOException, SAXException {
 
@@ -52,18 +51,34 @@ public class App {
 				.addOption(optVerbose)
 				.addOption(outfile)
 				.addOption(outtype)
+				.addOption(Option.builder().longOpt(OPT_DAPHNE_INPUT)
+						.argName("file")
+						.hasArg()
+						.desc("Daphne html file").build())
+				.addOption(Option.builder().longOpt(OPT_HIS_INPUT)
+						.argName("file")
+						.hasArg()
+						.desc("his html file (from the `Change student affiliation' form)").build())
 				.addOption(
 						Option.builder()
 								.longOpt(OPT_EXCLUDED)
 								.argName("file")
-								.hasArg()
+								.hasArgs()
+								.valueSeparator(',')
 								.desc(
 										"File with one excluded username per line")
 								.build())
-				.addOption(
-						Option.builder().longOpt(OPT_TUTOR_SUMMARY)
+				;
+		OptionGroup commands = new OptionGroup()
+			.addOption(Option.builder()
+						.longOpt(OPT_POINTS)
+						.desc("Print points of all students").build())
+			.addOption(Option.builder().longOpt(OPT_TUTOR_SUMMARY)
 								.desc("Print a tutor summary")
-								.build());
+								.build())
+								;
+		options.addOptionGroup(commands);
+
 
 		CommandLineParser parser = new DefaultParser();
 
@@ -94,24 +109,9 @@ public class App {
 
 			List<String> excludedUsernames = new ArrayList<>();
 			if (commandLine.hasOption(OPT_EXCLUDED)) {
-				File excludedFile = new File(
-						commandLine.getOptionValue(OPT_EXCLUDED));
-				try {
-					BufferedReader r = new BufferedReader(new FileReader(
-							excludedFile));
-					excludedUsernames.addAll(UsernameFile
-							.parseExcludedStudents(r));
-				} catch (IOException e) {
-					System.err.println(String.format(
-							"Error reading file of excluded students `%s': %s",
-							excludedFile.getAbsolutePath(), e.getMessage()));
-					System.exit(EXIT_STATUS_ERROR);
-				} catch (IllegalArgumentException e) {
-					System.err.println(String.format(
-							"Error parsing file of excluded students `%s': %s",
-							excludedFile.getAbsolutePath(), e.getMessage()));
-					System.exit(EXIT_STATUS_ERROR);
-				}
+					for (String fname : commandLine.getOptionValues(OPT_EXCLUDED)) {
+					readExcluded(excludedUsernames, fname);
+					}
 			}
 
 			InputStream in = new BufferedInputStream(new FileInputStream(
@@ -162,4 +162,24 @@ public class App {
 		} finally {
 		}
 	}
+
+    private static void readExcluded(List<String> excludedUsernames, String fname) {
+				File excludedFile = new File(fname);
+				try {
+					BufferedReader r = new BufferedReader(new FileReader(
+							excludedFile));
+					excludedUsernames.addAll(UsernameFile
+							.parseExcludedStudents(r));
+				} catch (IOException e) {
+					System.err.println(String.format(
+							"Error reading file of excluded students `%s': %s",
+							excludedFile.getAbsolutePath(), e.getMessage()));
+					System.exit(EXIT_STATUS_ERROR);
+				} catch (IllegalArgumentException e) {
+					System.err.println(String.format(
+							"Error parsing file of excluded students `%s': %s",
+							excludedFile.getAbsolutePath(), e.getMessage()));
+					System.exit(EXIT_STATUS_ERROR);
+				}
+    }
 }

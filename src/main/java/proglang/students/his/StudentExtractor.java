@@ -1,4 +1,4 @@
-package proglang.his.studentex;
+package proglang.students.his;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +28,7 @@ public class StudentExtractor {
 	private static org.slf4j.Logger log = org.slf4j.LoggerFactory
 			.getLogger(StudentExtractor.class);
 	
-	public static List<proglang.his.studentex.HisStudent> extract(final InputStream in) throws IOException {
+	public static List<proglang.students.his.HisStudent> extract(final InputStream in) throws IOException {
 		Document doc = Jsoup.parse(in, Charset.defaultCharset().name(), "");
 		String tbodyId = "switchAdmissions:switchAdmissionFieldset:enrollmentTable:enrollmentTableTable:tbody_element";
 		Elements tables = doc.getElementsByAttributeValue("id", tbodyId);
@@ -43,7 +43,7 @@ public class StudentExtractor {
 	}
 	
 	
-	static proglang.his.studentex.HisStudent parseStudent(Element row) {
+	static proglang.students.his.HisStudent parseStudent(Element row) {
 		List<Element> fields = row.select("td").subList(0, 2);
 		Elements inputs = row.select("input");
 		if (fields.size() < 2 || inputs.isEmpty()) {

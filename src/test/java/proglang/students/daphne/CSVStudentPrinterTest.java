@@ -1,4 +1,4 @@
-package proglang.daphne.pointex;
+package proglang.students.daphne;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+
+import proglang.students.daphne.CSVStudentPrinter;
+import proglang.students.daphne.ExPoint;
+import proglang.students.daphne.Student;
 
 public class CSVStudentPrinterTest {
 

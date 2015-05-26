@@ -1,4 +1,4 @@
-package proglang.daphne.pointex;
+package proglang.students.daphne;
 
 import static org.junit.Assert.assertEquals;
 import static proglang.TestUtils.loadTestFile;
@@ -11,6 +11,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Test;
+
+import proglang.students.daphne.ExPoint;
+import proglang.students.daphne.PointExtractor;
+import proglang.students.daphne.Student;
 
 public class PointExtractorTest {
 

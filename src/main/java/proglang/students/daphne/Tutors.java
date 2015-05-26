@@ -1,4 +1,4 @@
-package proglang.daphne.pointex;
+package proglang.students.daphne;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package proglang.his.studentex;
+package proglang.students.his;
 
 import static org.junit.Assert.*;
 import static proglang.TestUtils.*;
@@ -14,6 +14,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Test;
+
+import proglang.students.his.DegreeProgram;
+import proglang.students.his.HisStudent;
+import proglang.students.his.StudentExtractor;
 
 public class StudentExtractorTest {
 

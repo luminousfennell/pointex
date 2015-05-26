@@ -1,4 +1,4 @@
-package proglang.daphne.pointex;
+package proglang.students.daphne;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import proglang.daphne.pointex.Tutors.Fields;
+import proglang.students.daphne.Tutors.Fields;
 
 public class TutorsTest {
 

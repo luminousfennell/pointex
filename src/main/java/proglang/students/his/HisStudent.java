@@ -1,4 +1,4 @@
-package proglang.his.studentex;
+package proglang.students.his;
 
 import java.util.OptionalInt;
 
