@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,16 +42,11 @@ public class App {
 
 	public static void main(String[] args) throws IOException, SAXException {
 
-		Option outfile = Option.builder("o").longOpt("outfile")
-				.argName("arg").hasArg().desc("Output file")
-				.build();
-
 		Option optVerbose = new Option("v", "Verbose");
 
 		Options options = new Options()
 				.addOption("h", "help", false, "Prints a help text")
 				.addOption(optVerbose)
-				.addOption(outfile)
 				.addOption(Option.builder().longOpt(OPT_DAPHNE_INPUT)
 						.argName("file")
 						.hasArg()
@@ -122,28 +116,17 @@ public class App {
 			List<Student> students = Student.excludeStudents(
 					PointExtractor.extract(in), excludedUsernames);
 
-			PrintStream ps = System.out;
-
-			if (commandLine.hasOption("o")) {
-
-				String file = commandLine.getOptionValue("o");
-
-				ps = new PrintStream(file);
-			}
-
 			if (commandLine.hasOption(OPT_TUTOR_SUMMARY)) {
-				Tutors.write(ps, Tutors.sort(students));
+				Tutors.write(System.out, Tutors.sort(students));
 			} else {
 
 				StudentPrinter printer = new CSVStudentPrinter();
-				printer.print(ps, students);
+				printer.print(System.out, students);
 			}
-			ps.close();
 		} catch (ParseException e) {
 			System.out.println("Unexpected exception:" + e.getMessage());
 
-		} finally {
-		}
+		} 
 	}
 
     private static void readExcluded(List<String> excludedUsernames, String fname) {
