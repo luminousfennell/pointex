@@ -31,7 +31,7 @@ public class Student {
 		this.tutor = tutor;
 		this.points = new ArrayList<>(parsedPoints);
 	}
-
+	
 	public String getUsername() {
 		return username;
 	}
