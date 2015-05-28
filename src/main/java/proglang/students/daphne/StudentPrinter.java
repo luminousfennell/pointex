@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface StudentPrinter {
 
-	public String getStringFrom(final List<Student> students);
+	public void print(Appendable in, final List<Student> students);
 	
 }

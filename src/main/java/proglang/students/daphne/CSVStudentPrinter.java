@@ -10,10 +10,9 @@ import org.apache.commons.csv.CSVPrinter;
 
 public class CSVStudentPrinter implements StudentPrinter {
 
-	public String getStringFrom(final List<Student> students) {
-		StringBuffer sb = new StringBuffer();
+	public void print(Appendable in, final List<Student> students) {
 		try 
-		(CSVPrinter printer = new CSVPrinter(sb, CSVFormat.DEFAULT.withHeader("id", "name", "tutor", "points")))
+		(CSVPrinter printer = new CSVPrinter(in, CSVFormat.DEFAULT.withHeader("id", "name", "tutor", "points")))
 		{
 		for (Student st : students) {
 			String points = st.getPoints().stream().map(p -> String.format("%.1f", p.getPoints()))
@@ -24,6 +23,5 @@ public class CSVStudentPrinter implements StudentPrinter {
 			System.err.println(String.format("Error writing students csv: %s", e.getMessage()));
 			e.printStackTrace();
 		}
-		return sb.toString();
 	}
 }

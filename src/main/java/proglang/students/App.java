@@ -137,8 +137,7 @@ public class App {
 
 				// Fallback is CSV printer.
 				StudentPrinter printer = new CSVStudentPrinter();
-				String studentsString = printer.getStringFrom(students);
-				ps.println(studentsString);
+				printer.print(ps, students);
 			}
 			ps.close();
 		} catch (ParseException e) {
