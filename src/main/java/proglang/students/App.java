@@ -135,7 +135,6 @@ public class App {
 				Tutors.write(ps, Tutors.sort(students));
 			} else {
 
-				// Fallback is CSV printer.
 				StudentPrinter printer = new CSVStudentPrinter();
 				printer.print(ps, students);
 			}
