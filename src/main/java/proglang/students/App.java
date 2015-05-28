@@ -1,4 +1,4 @@
-package proglang.students.daphne;
+package proglang.students;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -21,6 +21,13 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xml.sax.SAXException;
 
+import proglang.students.daphne.CSVStudentPrinter;
+import proglang.students.daphne.PointExtractor;
+import proglang.students.daphne.Student;
+import proglang.students.daphne.StudentPrinter;
+import proglang.students.daphne.Tutors;
+import proglang.students.daphne.UsernameFile;
+
 /**
  * Hello world!
  * 
@@ -40,17 +47,12 @@ public class App {
 				.argName("arg").hasArg().desc("Output file")
 				.build();
 
-		Option outtype = Option.builder("t").longOpt("type").argName("arg")
-				.hasArg().desc("Type of the output: xml,csv")
-				.build();
-
 		Option optVerbose = new Option("v", "Verbose");
 
 		Options options = new Options()
 				.addOption("h", "help", false, "Prints a help text")
 				.addOption(optVerbose)
 				.addOption(outfile)
-				.addOption(outtype)
 				.addOption(Option.builder().longOpt(OPT_DAPHNE_INPUT)
 						.argName("file")
 						.hasArg()
@@ -130,28 +132,11 @@ public class App {
 			}
 
 			if (commandLine.hasOption(OPT_TUTOR_SUMMARY)) {
-				// TODO: generalize xml output such that it can be used for tutors
-				if (commandLine.hasOption("t")
-						&& !commandLine.getOptionValue("t").equals("csv")) {
-					System.err.println("Error: XML output not supported for tutor info.");
-				}
-				
 				Tutors.write(ps, Tutors.sort(students));
 			} else {
 
 				// Fallback is CSV printer.
 				StudentPrinter printer = new CSVStudentPrinter();
-
-				if (commandLine.hasOption("t")) {
-					switch (commandLine.getOptionValue("t")) {
-					case "xml":
-						printer = new XMLStudentPrinter();
-						break;
-					case "csv":
-						printer = new CSVStudentPrinter();
-						break;
-					}
-				}
 				String studentsString = printer.getStringFrom(students);
 				ps.println(studentsString);
 			}
