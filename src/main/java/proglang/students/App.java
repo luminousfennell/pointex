@@ -28,6 +28,8 @@ import proglang.students.daphne.Student;
 import proglang.students.daphne.StudentPrinter;
 import proglang.students.daphne.Tutors;
 import proglang.students.daphne.UsernameFile;
+import proglang.students.his.HisStudent;
+import proglang.students.his.HisStudentPrinter;
 
 /**
  * Hello world!
@@ -119,12 +121,15 @@ public class App {
 			IOSupplier<List<Student>> students = 
 					() -> Student.excludeStudents(StudentExtractor.extract(in), excludedUsernames);
 
+			IOSupplier<List<HisStudent>> hisStudents = 
+					() -> proglang.students.his.StudentExtractor.extract(in);
+
 			if (commandLine.hasOption(OPT_TUTOR_SUMMARY)) {
 				Tutors.write(System.out, Tutors.sort(students.get()));
 			} else if (commandLine.hasOption(OPT_DAPHNE_EX)) {
 				new ResultPrinter().print(System.out, students.get());
 			} else if (commandLine.hasOption(OPT_HIS)) {
-				throw new IllegalArgumentException(OPT_HIS + " NOT IMPLEMENTEND YET");
+				new HisStudentPrinter().print(System.out, hisStudents.get());
 			} else {
 				// default OPT_DAPHNE_STUDENTS
 
