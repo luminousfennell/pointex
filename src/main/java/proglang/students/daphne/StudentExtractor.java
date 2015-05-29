@@ -13,7 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class PointExtractor {
+public class StudentExtractor {
 
 	private static final int COL_USERNAME = 0;
 	private static final int COL_REALNAME = 1;
@@ -24,7 +24,7 @@ public class PointExtractor {
 	private static final int MIN_ROW_SIZE = COL_LATEST_EX + 1;
 
 	private static org.slf4j.Logger log = org.slf4j.LoggerFactory
-			.getLogger(PointExtractor.class);
+			.getLogger(StudentExtractor.class);
 
 	public static List<Student> extract(final InputStream in)
 			throws IOException {
@@ -80,7 +80,7 @@ public class PointExtractor {
 				.text(), tutor, parsedPoints);
 	}
 
-	private static ArrayList<ExPoint> parsePoints(List<String> points) {
+	static ArrayList<ExPoint> parsePoints(List<String> points) {
 		ArrayList<ExPoint> coll = new ArrayList<>();
 
 		for (String entry : points) {
