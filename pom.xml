@@ -63,7 +63,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>proglang.students.daphne.App</mainClass>
+							<mainClass>proglang.students.App</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
