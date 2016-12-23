@@ -1,6 +1,9 @@
 pointex
 =======
 
+**deprecated** Daphne and HISinOne started to support csv/Excel exports which
+makes this script obsolete.
+
 Point extractor for Daphne
 
 Requires maven version 3 and a Java 7 compiler.
