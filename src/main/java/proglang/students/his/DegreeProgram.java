@@ -12,6 +12,16 @@ public class DegreeProgram {
 	public String getDescription() {
 		return description;
 	}
+	
+	public String getCategory() {
+		if (this.description.matches(".*Embedded Systems Engineering.*")) {
+			return "ESE";
+		} else if (this.description.matches(".*Informatik.*")) {
+			return "INFO";
+		} else {
+			return "MISC";
+		}
+	}
 
 	@Override
 	public int hashCode() {

@@ -15,7 +15,8 @@ public class CSVStudentPrinter implements StudentPrinter {
 		(CSVPrinter printer = new CSVPrinter(in, CSVFormat.DEFAULT.withHeader("id", "name", "tutor", "points")))
 		{
 		for (Student st : students) {
-			String points = st.getPoints().stream().map(p -> String.format("%.1f", p.getPoints()))
+			String points = st.getPoints().stream()
+									      .map(p -> p.getPoints().map(s -> String.format("%.1f", s)).orElse(null))
 					.collect(Collectors.toList()).toString();
 			printer.printRecord(st.getUsername(), st.getRealname(), st.getTutor(), points);
 		}

@@ -3,6 +3,8 @@ package proglang.students.daphne;
 import java.util.ArrayList;
 import java.util.List;
 
+import proglang.students.Name;
+
 public class Student {
 	
 	// Some utility methods for student lists (for lack of a better place).
@@ -19,7 +21,7 @@ public class Student {
 
 	// Real implementation of Student objects
 	private final String username;
-	private final String realname;
+	private final Name realname;
 	private final String tutor;
 	
 	private List<ExPoint> points;
@@ -27,7 +29,7 @@ public class Student {
 	public Student(String username, String realname, String tutor, List<ExPoint> parsedPoints) {
 		super();
 		this.username = username;
-		this.realname = realname;
+		this.realname = new Name(realname);
 		this.tutor = tutor;
 		this.points = new ArrayList<>(parsedPoints);
 	}
@@ -81,7 +83,7 @@ public class Student {
 		return true;
 	}
 	
-	public String getRealname() {
+	public Name getRealname() {
 		return realname;
 	}
 

@@ -5,8 +5,11 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -48,7 +51,7 @@ public class StudentExtractor {
 			log.debug("Headers: " + Arrays.toString(tableHeaders));
 
 			// Extract content
-			Elements rows = tables.select("tbody > tr.even, tbody > tr.odd");
+			Elements rows = tables.select("tbody > tr, tbody > tr.even, tbody > tr.odd");
 
 			for (int currRow = 0; currRow < rows.size(); currRow++) {
 				Elements cols = rows.get(currRow).select("td");
@@ -80,28 +83,28 @@ public class StudentExtractor {
 				.text(), tutor, parsedPoints);
 	}
 
-	static ArrayList<ExPoint> parsePoints(List<String> points) {
-		ArrayList<ExPoint> coll = new ArrayList<>();
+	static List<ExPoint> parsePoints(List<String> points) {
+		LinkedList<ExPoint> coll = new LinkedList<>();
 
 		for (String entry : points) {
 			// Decimal conversion
 			entry = entry.replace(",", ".");
 
-			double received = 0;
+			Optional<Double> received = Optional.empty();
 			double max = -1;
 
 			try (Scanner sc = new Scanner(entry);) {
 
 				if (sc.hasNextDouble()) {
-					received = sc.nextDouble();
+					received = Optional.of(sc.nextDouble());
 				}
 				sc.skip(".*/");
 				max = sc.nextDouble();
 			}
 
-			coll.add(new ExPoint(received, max));
+			// On daphne, the exercises are listed in reverse order
+			coll.addFirst(new ExPoint(received, max));
 		}
-
 		return coll;
 	}
 

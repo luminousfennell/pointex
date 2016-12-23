@@ -1,18 +1,22 @@
 package proglang.students.daphne;
 
+import java.util.Optional;
+
 
 public class ExPoint {
 
-	private final double points;
+	private final Optional<Double> points;
 	private final double max;
-
-	public ExPoint(double points, double max) {
+    public ExPoint(double points, double max) {
+    	this(Optional.of(points), max);
+    }
+	public ExPoint(Optional<Double> points, double max) {
 		super();
 		this.points = points;
 		this.max = max;
 	}
 
-	public double getPoints() {
+	public Optional<Double> getPoints() {
 		return points;
 	}
 
@@ -32,8 +36,7 @@ public class ExPoint {
 		long temp;
 		temp = Double.doubleToLongBits(max);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(points);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((points == null) ? 0 : points.hashCode());
 		return result;
 	}
 
@@ -48,8 +51,10 @@ public class ExPoint {
 		ExPoint other = (ExPoint) obj;
 		if (Double.doubleToLongBits(max) != Double.doubleToLongBits(other.max))
 			return false;
-		if (Double.doubleToLongBits(points) != Double
-				.doubleToLongBits(other.points))
+		if (points == null) {
+			if (other.points != null)
+				return false;
+		} else if (!points.equals(other.points))
 			return false;
 		return true;
 	}

@@ -27,7 +27,6 @@ import proglang.students.daphne.StudentExtractor;
 import proglang.students.daphne.Student;
 import proglang.students.daphne.StudentPrinter;
 import proglang.students.daphne.Tutors;
-import proglang.students.daphne.UsernameFile;
 import proglang.students.his.HisStudent;
 import proglang.students.his.HisStudentPrinter;
 

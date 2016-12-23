@@ -1,4 +1,4 @@
-package proglang.students.daphne;
+package proglang.students;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import proglang.students.UsernameFile;
 
 public class UsernameFileTest {
 	
@@ -34,10 +36,6 @@ public class UsernameFileTest {
 		UsernameFile.checkValidity(" ab123");
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testCheckValidity_tooManyInitials() {
-		UsernameFile.checkValidity("abc123");
-	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCheckValidity_invalid2_numbersInFront() {

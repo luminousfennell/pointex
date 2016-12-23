@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -27,18 +28,24 @@ public class ResultPrinter {
 				int[] indices = IntStream.range(0, points.size()).toArray();
 				List<String> names = IntStream
 						.of(indices)
+						// TODO: do the renaming of exercises via an external file
 						.mapToObj(
-								i -> i < 10 ? String.format("ex0%d", i)
-										: String.format("ex%d", i))
+								i -> { return i < 4? formatEx(i+1) : i == 4? "klausur1"
+                                                                           : formatEx(i+2);
+										})
 						.collect(Collectors.toList());
 				for (int i : indices) {
 					printer.printRecord(st.getUsername(), names.get(i), i,
-							points.get(i).getPoints(), points.get(i).getMax());
+							points.get(i).getPoints().orElse(null), points.get(i).getMax());
 				}
 			}
 		} catch (IOException e) {
 			throw new RuntimeException("Error printing results: " + e.getMessage());
 		}
 	}
+
+	private static String formatEx(int i) {
+        return i < 10 ? String.format("uebung0%d", i) : String.format("uebung%d", i);
+    }
 
 }

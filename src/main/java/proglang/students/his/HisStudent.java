@@ -2,6 +2,8 @@ package proglang.students.his;
 
 import java.util.OptionalInt;
 
+import proglang.students.Name;
+
 
 /**
  * Students as considered by HIS. They have a real name
@@ -12,20 +14,20 @@ import java.util.OptionalInt;
  */
 public class HisStudent {
 
-	private final String realname;
+	private final Name realname;
 	private final DegreeProgram program;
 	private final OptionalInt group;
 	
 	
 	public HisStudent(String realname, DegreeProgram program, OptionalInt group) {
 		super();
-		this.realname = realname;
+		this.realname = new Name(realname);
 		this.program = program;
 		this.group = group;
 	}
 
 
-	public String getRealname() {
+	public Name getRealname() {
 		return realname;
 	}
 
